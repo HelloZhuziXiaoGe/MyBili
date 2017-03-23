@@ -72,13 +72,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
     private void initAdapter() {
         mainViewPager = new MainViewPagerAdapter(getSupportFragmentManager(), fragments);
         viewPager.setAdapter(mainViewPager);
         //关联ViewPager
         tablayout.setupWithViewPager(viewPager);
         tablayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+
+
     }
 
     private void initFragment() {

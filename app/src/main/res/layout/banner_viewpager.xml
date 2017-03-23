@@ -49,7 +49,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="关注"/>
+                android:text="中心"/>
         </LinearLayout>
         <LinearLayout
             android:id="@+id/ll_game"
@@ -59,9 +59,10 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
             <ImageView
+                android:padding="5dp"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:background="@drawable/live_home_search_room"/>
+                android:background="@drawable/ic_btn_game"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

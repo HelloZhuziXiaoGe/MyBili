@@ -1,16 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <!--list.add(new ContentModel(R.drawable.ic_home_black_24dp,"首页"));
-    list.add(new ContentModel(R.drawable.ic_nav_vip,"大会员"));
-    list.add(new ContentModel(R.drawable.ic_nav_point,"会员积分"));
-    list.add(new ContentModel(R.drawable.ic_file_download_black_24dp,"离线缓存"));
-    list.add(new ContentModel(R.drawable.ic_view_later_24dp,"稍后再看"));
-    list.add(new ContentModel(R.drawable.ic_star_black_24dp,"我的收藏"));
-    list.add(new ContentModel(R.drawable.ic_history_black_24dp,"历史记录"));
-    list.add(new ContentModel(R.drawable.ic_people_black_24dp,"我的关注"));
-    list.add(new ContentModel(R.drawable.ic_account_balance_wallet_black_24dp,"B币钱包"));
-    list.add(new ContentModel(R.drawable.ic_color_lens_black_24dp,"主题选择"));
-    list.add(new ContentModel(R.drawable.ic_settings_black_24dp,"设置与帮助"));-->
+
     <item
         android:id="@+id/ic_home_black_24dp"
         android:icon="@drawable/ic_home_black_24dp"
@@ -23,10 +13,15 @@
         android:id="@+id/ic_nav_point"
         android:icon="@drawable/ic_nav_point"
         android:title="会员积分"/>
-    <item
-        android:id="@+id/ic_file_download_black_24dp"
-        android:icon="@drawable/ic_file_download_black_24dp"
-        android:title="离线缓存"/>
+
+
+        <item
+            android:id="@+id/ic_file_download_black_24dp"
+            android:icon="@drawable/ic_file_download_black_24dp"
+            android:title="离线缓存"/>
+    <group android:id="@+id/gp_cache">
+
+    </group>
     <item
         android:id="@+id/ic_view_later_24dp"
         android:icon="@drawable/ic_view_later_24dp"
@@ -43,10 +38,12 @@
         android:id="@+id/ic_people_black_24dp"
         android:icon="@drawable/ic_people_black_24dp"
         android:title="我的关注"/>
+
     <item
         android:id="@+id/ic_account_balance_wallet_black_24dp"
         android:icon="@drawable/ic_account_balance_wallet_black_24dp"
         android:title="B币钱包"/>
+    <group android:id="@+id/gp_wallet"></group>
     <item
         android:id="@+id/ic_color_lens_black_24dp"
         android:icon="@drawable/ic_color_lens_black_24dp"

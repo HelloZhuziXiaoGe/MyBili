@@ -1,15 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="190dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:padding="10dp">
+    android:padding="5dp">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/item_live_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="3dp"
+        android:layout_weight="1"
+        android:clickable="true"
+        android:foreground="?attr/selectableItemBackground"
+        app:cardBackgroundColor="#ffffff"
+        app:cardCornerRadius="2dp"
+        app:cardElevation="4dp">
+        <LinearLayout
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
     <ImageView
         android:id="@+id/iv_recommend"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
          />
 
     <TextView
@@ -22,7 +40,7 @@
         android:padding="2dp"
         android:text="全款预售【喵鹿酱】樱桃蜜语 毛呢绣花 小高腰半裙"
         android:textColor="#000"
-        android:textSize="12sp" />
+        android:textSize="10sp" />
 
     <TextView
         android:id="@+id/tv_price"
@@ -30,4 +48,7 @@
         android:layout_height="wrap_content"
         android:text="￥88.00"
         android:textColor="#ff4242" />
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
 </LinearLayout>

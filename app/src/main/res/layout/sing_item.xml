@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="5dp"
     android:orientation="vertical">
 
 
@@ -55,14 +56,16 @@
         <GridView
             android:id="@+id/gv_video"
             android:layout_width="match_parent"
-            android:layout_height="600dp"
+            android:layout_height="400dp"
             android:numColumns="2"></GridView>
 
     </LinearLayout>
     <LinearLayout
+        android:layout_marginTop="10dp"
+        android:padding="5dp"
         android:gravity="center"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="35dp"
         android:orientation="horizontal">
         <Button
             android:id="@+id/btn_watch_more"
@@ -75,6 +78,7 @@
             android:layout_weight="1"
             />
         <TextView
+            android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="8条动态，点击刷新"/>
@@ -82,8 +86,9 @@
         <ImageView
             android:layout_marginLeft="8dp"
             android:id="@+id/ima_refresh"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:paddingRight="8dp"
             android:background="@drawable/tag_center_refresh_icon"
             />
 

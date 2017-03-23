@@ -13,8 +13,8 @@
     </style>
     <style name="MyCustomTabLayout" parent="Widget.Design.TabLayout">
 
-        <item name="tabMaxWidth">150dp</item>
-        <item name="tabMinWidth">52dp</item>
+       <!-- <item name="tabMaxWidth">150dp</item>
+        <item name="tabMinWidth">52dp</item>-->
         <item name="tabIndicatorColor">#ffffff</item>
         <item name="tabIndicatorHeight">2dp</item>
         <item name="tabTextAppearance">@style/MyCustomTabTextAppearance</item>

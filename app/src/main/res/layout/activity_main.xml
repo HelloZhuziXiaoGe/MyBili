@@ -27,7 +27,7 @@
                         android:id="@+id/toobar"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
-                        android:background="@color/colorPrimary"
+                        android:layout_marginLeft="-16dp"
                         app:menu="@menu/main_layout">
 
                         <LinearLayout
@@ -35,6 +35,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:gravity="center_vertical"
+                            android:background="#fb7299"
                             android:orientation="horizontal">
 
                             <ImageView
@@ -45,19 +46,49 @@
                             <com.atguiu.mybili.view.CircleImageView
                                 android:layout_width="34dp"
                                 android:layout_height="34dp"
-                                android:layout_marginEnd="10dp"
-                                android:layout_marginStart="10dp"
-                                android:background="@drawable/ic_33_hide"
+                                android:layout_marginLeft="15dp"
+                                android:background="@drawable/bili_default_avatar"
                                 app:border_color="@android:color/white"
                                 app:border_width="1dp" />
+                            <ImageView
+                                android:id="@+id/iv_red"
+                                android:layout_width="10dp"
+                                android:layout_height="10dp"
+                                android:layout_gravity="top"
+                                android:layout_marginTop="5dp"
+                                android:background="@drawable/image_red"/>
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:maxLines="1"
+                                android:layout_marginLeft="5dp"
                                 android:text="未登录"
                                 android:textColor="@android:color/white"
                                 android:textSize="16sp" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"/>
+                            <ImageView
+                                android:id="@+id/iv_title_game"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_marginLeft="15dp"
+                                android:layout_marginRight="15dp"
+                                android:background="@drawable/ic_menu_top_game_center"/>
+                            <ImageView
+                                android:id="@+id/iv_title_download"
+                                android:layout_width="28dp"
+                                android:layout_height="28dp"
+                                android:background="@drawable/ic_download_white"/>
+                            <ImageView
+                                android:id="@+id/iv_title_search"
+                                android:layout_marginLeft="15dp"
+                                android:layout_width="28dp"
+                                android:layout_height="28dp"
+                                android:layout_marginRight="5dp"
+                                android:background="@drawable/live_home_search"/>
 
                         </LinearLayout>
 
@@ -70,36 +101,20 @@
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:layout_gravity="center"
+
                         android:background="#fb7299"
-                        android:paddingLeft="60dp"
-                        android:paddingRight="60dp" />
+                        />
                 </LinearLayout>
 
             </android.support.design.widget.AppBarLayout>
 
-
-
-            <android.support.v4.widget.NestedScrollView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    >
-
                     <android.support.v4.view.ViewPager
                         android:id="@+id/view_pager"
                         android:layout_width="match_parent"
-                        android:layout_height="810dp"
+                        android:layout_height="match_parent"
                         android:background="#ffffff"
                         app:layout_behavior="@string/appbar_scrolling_view_behavior"
                         android:visibility="visible"/>
-                </LinearLayout>
-
-            </android.support.v4.widget.NestedScrollView>
-
 
         </android.support.design.widget.CoordinatorLayout>
     <android.support.design.widget.NavigationView

@@ -57,7 +57,7 @@ public class RecommendAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         viewHolder.tvName.setText(datas.get(position).getName());
-        viewHolder.tvPrice.setText(datas.get(position).getCover_price());
+        viewHolder.tvPrice.setText("￥"+datas.get(position).getCover_price());
         Glide.with(context).load(Contans.BASE_URL_IMAGE+datas.get(position).getFigure()).into(viewHolder.ivRecommend);
 
 

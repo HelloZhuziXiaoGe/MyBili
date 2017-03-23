@@ -45,6 +45,14 @@ public class DirectTvAdapter extends RecyclerView.Adapter {
     public static final int AREA = 2;
     public static final int LIFE = 3;
     public static final int SING = 4;
+    public static final int HANDGAME = 5;
+
+    public static final int SINGLE = 6;
+
+    public static final int NETGAME = 7;
+    public static final int ELECTRONIC = 8;
+    public static final int CULTURE = 9;
+    public static final int VIDEOHALL = 10;
 
 
     public int currentType = BANNER;
@@ -52,6 +60,7 @@ public class DirectTvAdapter extends RecyclerView.Adapter {
 
     private List<GuiguInfo.ResultBean.RecommendInfoBean> recommend_info;
     private SecondViewHolder secondViewHolder;
+    private HandGameAdapter handGameAdapter;
 
 
     public DirectTvAdapter(Context context, DirecTvInfo.DataBean datas) {
@@ -69,10 +78,20 @@ public class DirectTvAdapter extends RecyclerView.Adapter {
             return new AreaViewHolder(context, View.inflate(context, R.layout.area_item, null));
         } else if (viewType == LIFE) {
             return new LifeViewHolder(context, View.inflate(context, R.layout.lift_item, null));
-
         } else if (viewType == SING) {
             return new SingViewHolder(context, View.inflate(context, R.layout.sing_item, null));
-
+        } else if (viewType == HANDGAME) {
+            return new HandGameViewHolder(context, View.inflate(context, R.layout.handgame_item, null));
+        } else if (viewType == SINGLE) {
+            return new SingleViewHolder(context, View.inflate(context, R.layout.single_item, null));
+        } else if (viewType == NETGAME) {
+            return new NetgameViewHolder(context, View.inflate(context, R.layout.netgame_item, null));
+        } else if (viewType == ELECTRONIC) {
+            return new ElectronicViewHolder(context, View.inflate(context, R.layout.electronic_item, null));
+        } else if (viewType == CULTURE) {
+            return new CultureViewHolder(context, View.inflate(context, R.layout.culture_item, null));
+        } else if (viewType == VIDEOHALL) {
+            return new VideoHallViewHolder(context, View.inflate(context, R.layout.videohanll_item, null));
         }
 
 
@@ -83,9 +102,7 @@ public class DirectTvAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (getItemViewType(position) == BANNER) {
             BannerViewHolder bannerViewHolder = (BannerViewHolder) holder;
-
             bannerViewHolder.setData(datas.getBanner());
-
         } else if (getItemViewType(position) == SECOND) {
             secondViewHolder = (SecondViewHolder) holder;
             getDataFromGuigu();
@@ -95,10 +112,27 @@ public class DirectTvAdapter extends RecyclerView.Adapter {
         } else if (getItemViewType(position) == LIFE) {
             LifeViewHolder lifeViewHolder = (LifeViewHolder) holder;
             lifeViewHolder.setData(datas.getPartitions());
-
         } else if (getItemViewType(position) == SING) {
             SingViewHolder singViewHolder = (SingViewHolder) holder;
             singViewHolder.setData(datas.getPartitions());
+        } else if (getItemViewType(position) == HANDGAME) {
+            HandGameViewHolder handGameViewHolder = (HandGameViewHolder) holder;
+            handGameViewHolder.setData(datas.getPartitions());
+        } else if (getItemViewType(position) == SINGLE) {
+            SingleViewHolder singleViewHolder = (SingleViewHolder) holder;
+            singleViewHolder.setData(datas.getPartitions());
+        } else if (getItemViewType(position) == NETGAME) {
+            NetgameViewHolder netgameViewHolder = (NetgameViewHolder) holder;
+            netgameViewHolder.setData(datas.getPartitions());
+        } else if (getItemViewType(position) == ELECTRONIC) {
+            ElectronicViewHolder electronicViewHolder = (ElectronicViewHolder) holder;
+            electronicViewHolder.setData(datas.getPartitions());
+        } else if (getItemViewType(position) == CULTURE) {
+            CultureViewHolder cultureViewHolder = (CultureViewHolder) holder;
+            cultureViewHolder.setData(datas.getPartitions());
+        } else if (getItemViewType(position) == VIDEOHALL) {
+            VideoHallViewHolder videoHallViewHolder = (VideoHallViewHolder) holder;
+            videoHallViewHolder.setData(datas.getPartitions());
         }
     }
 
@@ -114,15 +148,12 @@ public class DirectTvAdapter extends RecyclerView.Adapter {
                     public void onError(Call call, Exception e, int id) {
                         Log.e("TAG", "联网失败==" + e.getMessage());
                     }
-
                     @Override
                     public void onResponse(String response, int id) {
                         Log.e("TAG", "联网成功==");
                         processData(response);
-
                     }
                 });
-
     }
 
     private void processData(String response) {
@@ -144,6 +175,18 @@ public class DirectTvAdapter extends RecyclerView.Adapter {
             currentType = LIFE;
         } else if (position == SING) {
             currentType = SING;
+        } else if (position == HANDGAME) {
+            currentType = HANDGAME;
+        } else if (position == SINGLE) {
+            currentType = SINGLE;
+        } else if (position == NETGAME) {
+            currentType = NETGAME;
+        } else if (position == ELECTRONIC) {
+            currentType = ELECTRONIC;
+        } else if (position == CULTURE) {
+            currentType = CULTURE;
+        } else if (position == VIDEOHALL) {
+            currentType = VIDEOHALL;
         }
 
         return currentType;
@@ -151,7 +194,218 @@ public class DirectTvAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        return 5;
+        return 11;
+    }
+
+    class VideoHallViewHolder extends RecyclerView.ViewHolder {
+
+        private final Context context;
+        @InjectView(R.id.iv_title_image)
+        ImageView ivTitleImage;
+        @InjectView(R.id.tv_title_text)
+        TextView tvTitleText;
+        @InjectView(R.id.tv_number_zhubo)
+        TextView tvNumberZhubo;
+        @InjectView(R.id.ll_recommend_zhubo)
+        LinearLayout llRecommendZhubo;
+        @InjectView(R.id.gv_video)
+        GridView gvVideo;
+        @InjectView(R.id.btn_watch_more)
+        Button btnWatchMore;
+        @InjectView(R.id.ima_refresh)
+        ImageView imaRefresh;
+        private VideoHallAdapter videoHallAdapter;
+
+        public VideoHallViewHolder(Context context, View itemView) {
+            super(itemView);
+            this.context = context;
+            ButterKnife.inject(this, itemView);
+        }
+
+        public void setData(List<DirecTvInfo.DataBean.PartitionsBean> partitions) {
+            Glide.with(context).load(partitions.get(8).getPartition().getSub_icon().getSrc()).into(ivTitleImage);
+            tvTitleText.setText(partitions.get(8).getPartition().getName());
+            tvNumberZhubo.setText("当前" + partitions.get(8).getPartition().getCount() + "个直播");
+
+            videoHallAdapter = new VideoHallAdapter(context, partitions);
+            gvVideo.setAdapter(videoHallAdapter);
+
+        }
+    }
+
+    class CultureViewHolder extends RecyclerView.ViewHolder {
+
+        private final Context context;
+        @InjectView(R.id.iv_title_image)
+        ImageView ivTitleImage;
+        @InjectView(R.id.tv_title_text)
+        TextView tvTitleText;
+        @InjectView(R.id.tv_number_zhubo)
+        TextView tvNumberZhubo;
+        @InjectView(R.id.ll_recommend_zhubo)
+        LinearLayout llRecommendZhubo;
+        @InjectView(R.id.gv_video)
+        GridView gvVideo;
+        @InjectView(R.id.btn_watch_more)
+        Button btnWatchMore;
+        @InjectView(R.id.ima_refresh)
+        ImageView imaRefresh;
+        private CultureAdapter cultureAdapter;
+
+        public CultureViewHolder(Context context, View itemView) {
+            super(itemView);
+            this.context = context;
+            ButterKnife.inject(this, itemView);
+        }
+
+        public void setData(List<DirecTvInfo.DataBean.PartitionsBean> partitions) {
+            Glide.with(context).load(partitions.get(7).getPartition().getSub_icon().getSrc()).into(ivTitleImage);
+            tvTitleText.setText(partitions.get(7).getPartition().getName());
+            tvNumberZhubo.setText("当前" + partitions.get(7).getPartition().getCount() + "个直播");
+
+            cultureAdapter = new CultureAdapter(context, partitions);
+            gvVideo.setAdapter(cultureAdapter);
+        }
+    }
+
+
+    class ElectronicViewHolder extends RecyclerView.ViewHolder {
+
+        private final Context context;
+        @InjectView(R.id.iv_title_image)
+        ImageView ivTitleImage;
+        @InjectView(R.id.tv_title_text)
+        TextView tvTitleText;
+        @InjectView(R.id.tv_number_zhubo)
+        TextView tvNumberZhubo;
+        @InjectView(R.id.ll_recommend_zhubo)
+        LinearLayout llRecommendZhubo;
+        @InjectView(R.id.gv_video)
+        GridView gvVideo;
+        @InjectView(R.id.btn_watch_more)
+        Button btnWatchMore;
+        @InjectView(R.id.ima_refresh)
+        ImageView imaRefresh;
+
+        private ElectronicAdapter electronicAdapter;
+
+        public ElectronicViewHolder(Context context, View itemView) {
+            super(itemView);
+            this.context = context;
+            ButterKnife.inject(this, itemView);
+        }
+
+        public void setData(List<DirecTvInfo.DataBean.PartitionsBean> partitions) {
+            Glide.with(context).load(partitions.get(6).getPartition().getSub_icon().getSrc()).into(ivTitleImage);
+            tvTitleText.setText(partitions.get(6).getPartition().getName());
+            tvNumberZhubo.setText("当前" + partitions.get(6).getPartition().getCount() + "个直播");
+
+            electronicAdapter = new ElectronicAdapter(context, partitions);
+            gvVideo.setAdapter(electronicAdapter);
+        }
+    }
+
+    class NetgameViewHolder extends RecyclerView.ViewHolder {
+
+        private final Context context;
+        @InjectView(R.id.iv_title_image)
+        ImageView ivTitleImage;
+        @InjectView(R.id.tv_title_text)
+        TextView tvTitleText;
+        @InjectView(R.id.tv_number_zhubo)
+        TextView tvNumberZhubo;
+        @InjectView(R.id.ll_recommend_zhubo)
+        LinearLayout llRecommendZhubo;
+        @InjectView(R.id.gv_video)
+        GridView gvVideo;
+        @InjectView(R.id.btn_watch_more)
+        Button btnWatchMore;
+        @InjectView(R.id.ima_refresh)
+        ImageView imaRefresh;
+        private NetgameAdapter netgameAdapter;
+
+        public NetgameViewHolder(Context context, View itemView) {
+            super(itemView);
+            this.context = context;
+            ButterKnife.inject(this, itemView);
+        }
+
+
+        public void setData(List<DirecTvInfo.DataBean.PartitionsBean> partitions) {
+            Glide.with(context).load(partitions.get(5).getPartition().getSub_icon().getSrc()).into(ivTitleImage);
+            tvTitleText.setText(partitions.get(5).getPartition().getName());
+            tvNumberZhubo.setText("当前" + partitions.get(5).getPartition().getCount() + "个直播");
+            netgameAdapter = new NetgameAdapter(context, partitions);
+            gvVideo.setAdapter(netgameAdapter);
+        }
+    }
+
+    class SingleViewHolder extends RecyclerView.ViewHolder {
+
+        private final Context context;
+        @InjectView(R.id.iv_title_image)
+        ImageView ivTitleImage;
+        @InjectView(R.id.tv_title_text)
+        TextView tvTitleText;
+        @InjectView(R.id.tv_number_zhubo)
+        TextView tvNumberZhubo;
+        @InjectView(R.id.ll_recommend_zhubo)
+        LinearLayout llRecommendZhubo;
+        @InjectView(R.id.gv_video)
+        GridView gvVideo;
+        @InjectView(R.id.btn_watch_more)
+        Button btnWatchMore;
+        @InjectView(R.id.ima_refresh)
+        ImageView imaRefresh;
+        private SingleAdapter singleAdapter;
+
+        public SingleViewHolder(Context context, View itemView) {
+            super(itemView);
+            this.context = context;
+            ButterKnife.inject(this, itemView);
+        }
+
+        public void setData(List<DirecTvInfo.DataBean.PartitionsBean> partitions) {
+            Glide.with(context).load(partitions.get(4).getPartition().getSub_icon().getSrc()).into(ivTitleImage);
+            tvTitleText.setText(partitions.get(4).getPartition().getName());
+            tvNumberZhubo.setText("当前" + partitions.get(4).getPartition().getCount() + "个直播");
+            singleAdapter = new SingleAdapter(context, partitions);
+            gvVideo.setAdapter(singleAdapter);
+        }
+    }
+
+    class HandGameViewHolder extends RecyclerView.ViewHolder {
+        private final Context context;
+        @InjectView(R.id.iv_title_image)
+        ImageView ivTitleImage;
+        @InjectView(R.id.tv_title_text)
+        TextView tvTitleText;
+        @InjectView(R.id.tv_number_zhubo)
+        TextView tvNumberZhubo;
+        @InjectView(R.id.ll_recommend_zhubo)
+        LinearLayout llRecommendZhubo;
+        @InjectView(R.id.gv_video)
+        GridView gvVideo;
+        @InjectView(R.id.btn_watch_more)
+        Button btnWatchMore;
+        @InjectView(R.id.ima_refresh)
+        ImageView imaRefresh;
+
+        public HandGameViewHolder(Context context, View itemView) {
+            super(itemView);
+            this.context = context;
+            ButterKnife.inject(this, itemView);
+        }
+
+        public void setData(List<DirecTvInfo.DataBean.PartitionsBean> partitions) {
+            Glide.with(context).load(partitions.get(3).getPartition().getSub_icon().getSrc()).into(ivTitleImage);
+            tvTitleText.setText(partitions.get(3).getPartition().getName());
+            tvNumberZhubo.setText("当前" + partitions.get(3).getPartition().getCount() + "个直播");
+
+
+            handGameAdapter = new HandGameAdapter(context, partitions);
+            gvVideo.setAdapter(handGameAdapter);
+        }
     }
 
     class SingViewHolder extends RecyclerView.ViewHolder {
@@ -218,6 +472,7 @@ public class DirectTvAdapter extends RecyclerView.Adapter {
 
         public void setData(List<DirecTvInfo.DataBean.PartitionsBean> partitions) {
             Glide.with(context).load(partitions.get(1).getPartition().getSub_icon().getSrc()).into(ivTitleImage);
+
             tvTitleText.setText(partitions.get(1).getPartition().getName());
             tvNumberZhubo.setText("当前" + partitions.get(1).getPartition().getCount() + "个直播");
 
@@ -258,6 +513,7 @@ public class DirectTvAdapter extends RecyclerView.Adapter {
             Glide.with(context).load(partitions.get(0).getPartition().getSub_icon().getSrc()).into(ivTitleImage);
             tvTitleText.setText(partitions.get(0).getPartition().getName());
             tvNumberZhubo.setText("当前" + partitions.get(0).getPartition().getCount() + "个直播");
+
             paintAdapter = new PaintAdapter(context, partitions);
             gvVideo.setAdapter(paintAdapter);
         }
@@ -285,7 +541,7 @@ public class DirectTvAdapter extends RecyclerView.Adapter {
         public SecondViewHolder(Context context, View itemView) {
             super(itemView);
             this.context = context;
-           ButterKnife.inject(this,itemView);
+            ButterKnife.inject(this, itemView);
         }
 
         public void setData(List<GuiguInfo.ResultBean.RecommendInfoBean> recommend_info) {
@@ -320,7 +576,7 @@ public class DirectTvAdapter extends RecyclerView.Adapter {
 
         public void setData(List<DirecTvInfo.DataBean.BannerBean> banner_info) {
             List<String> images = new ArrayList<>();
-            for (int i = 0; i < 10; i++) {
+            for (int i = 0; i < 3; i++) {
                 images.add(banner_info.get(0).getImg());
             }
             banner.setImages(images)
@@ -335,6 +591,7 @@ public class DirectTvAdapter extends RecyclerView.Adapter {
                         }
                     })
                     .start();
+            banner.isAutoPlay(false);
             banner.setBannerAnimation(ForegroundToBackgroundTransformer.class);
 
 
