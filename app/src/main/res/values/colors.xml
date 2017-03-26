@@ -4,7 +4,9 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
-
+    <color name="primary">#Fb7299</color>
+    <color name="primary_dark">#Fb7299</color>
+    <color name="status_bar_color">@color/primary_dark</color>
 
 
 </resources>

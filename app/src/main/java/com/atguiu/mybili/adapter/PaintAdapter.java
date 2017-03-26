@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.atguiu.mybili.R;
 import com.atguiu.mybili.bean.DirecTvInfo;
@@ -48,7 +49,7 @@ public class PaintAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder = null;
         if (convertView == null) {
             convertView = View.inflate(context, R.layout.item_paint_grid_view, null);
@@ -63,6 +64,16 @@ public class PaintAdapter extends BaseAdapter {
         viewHolder.tvContent.setText(datas.get(0).getLives().get(position).getTitle());
         viewHolder.tvName.setText(datas.get(0).getLives().get(position).getOwner().getName());
         viewHolder.tvWatchingNumber.setText(datas.get(0).getLives().get(position).getOnline()+"");
+
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(context, "1111", Toast.LENGTH_SHORT).show();
+
+
+            }
+        });
+
 
         return convertView;
     }
@@ -79,6 +90,8 @@ public class PaintAdapter extends BaseAdapter {
 
         ViewHolder(View view) {
             ButterKnife.inject(this, view);
+
+
         }
     }
 }

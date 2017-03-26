@@ -2,11 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="5dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="5dp">
 
-
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -24,8 +23,7 @@
                 android:id="@+id/iv_title_image"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_marginLeft="8dp"
-                />
+                android:layout_marginLeft="8dp" />
 
             <TextView
                 android:id="@+id/tv_title_text"
@@ -40,10 +38,21 @@
                 android:layout_weight="1" />
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="当前" />
+
+            <TextView
                 android:id="@+id/tv_number_zhubo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="当前2987个主播" />
+                android:text="2987"
+                android:textColor="#ff0000" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="个主播" />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -58,40 +67,40 @@
             android:layout_width="match_parent"
             android:layout_height="400dp"
             android:numColumns="2"></GridView>
-
     </LinearLayout>
+
     <LinearLayout
-        android:layout_marginTop="10dp"
-        android:padding="5dp"
-        android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="35dp"
-        android:orientation="horizontal">
+        android:layout_marginTop="10dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
         <Button
             android:id="@+id/btn_watch_more"
             android:layout_width="110dp"
             android:layout_height="60dp"
-            android:text="查看更多"/>
+            android:text="查看更多" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            />
+            android:layout_weight="1" />
+
         <TextView
-            android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="8条动态，点击刷新"/>
+            android:layout_gravity="center"
+            android:text="8条动态，点击刷新" />
 
         <ImageView
-            android:layout_marginLeft="8dp"
             android:id="@+id/ima_refresh"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:paddingRight="8dp"
+            android:layout_marginLeft="8dp"
             android:background="@drawable/tag_center_refresh_icon"
-            />
-
+            android:paddingRight="8dp" />
     </LinearLayout>
 
 </LinearLayout>

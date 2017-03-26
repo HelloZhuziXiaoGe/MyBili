@@ -1,10 +1,14 @@
 package com.atguiu.mybili.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -12,11 +16,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.atguiu.mybili.R;
+import com.atguiu.mybili.WebViewActivity;
 import com.atguiu.mybili.bean.DirecTvInfo;
 import com.atguiu.mybili.bean.GuiguInfo;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.youth.banner.Banner;
+import com.youth.banner.listener.OnBannerListener;
 import com.youth.banner.loader.ImageLoader;
 import com.youth.banner.transformer.ForegroundToBackgroundTransformer;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -24,6 +30,7 @@ import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -225,7 +232,7 @@ public class DirectTvAdapter extends RecyclerView.Adapter {
         public void setData(List<DirecTvInfo.DataBean.PartitionsBean> partitions) {
             Glide.with(context).load(partitions.get(8).getPartition().getSub_icon().getSrc()).into(ivTitleImage);
             tvTitleText.setText(partitions.get(8).getPartition().getName());
-            tvNumberZhubo.setText("当前" + partitions.get(8).getPartition().getCount() + "个直播");
+            tvNumberZhubo.setText( partitions.get(8).getPartition().getCount() + "");
 
             videoHallAdapter = new VideoHallAdapter(context, partitions);
             gvVideo.setAdapter(videoHallAdapter);
@@ -261,7 +268,7 @@ public class DirectTvAdapter extends RecyclerView.Adapter {
         public void setData(List<DirecTvInfo.DataBean.PartitionsBean> partitions) {
             Glide.with(context).load(partitions.get(7).getPartition().getSub_icon().getSrc()).into(ivTitleImage);
             tvTitleText.setText(partitions.get(7).getPartition().getName());
-            tvNumberZhubo.setText("当前" + partitions.get(7).getPartition().getCount() + "个直播");
+            tvNumberZhubo.setText(partitions.get(7).getPartition().getCount() + "");
 
             cultureAdapter = new CultureAdapter(context, partitions);
             gvVideo.setAdapter(cultureAdapter);
@@ -298,7 +305,7 @@ public class DirectTvAdapter extends RecyclerView.Adapter {
         public void setData(List<DirecTvInfo.DataBean.PartitionsBean> partitions) {
             Glide.with(context).load(partitions.get(6).getPartition().getSub_icon().getSrc()).into(ivTitleImage);
             tvTitleText.setText(partitions.get(6).getPartition().getName());
-            tvNumberZhubo.setText("当前" + partitions.get(6).getPartition().getCount() + "个直播");
+            tvNumberZhubo.setText(partitions.get(6).getPartition().getCount() + "");
 
             electronicAdapter = new ElectronicAdapter(context, partitions);
             gvVideo.setAdapter(electronicAdapter);
@@ -334,7 +341,7 @@ public class DirectTvAdapter extends RecyclerView.Adapter {
         public void setData(List<DirecTvInfo.DataBean.PartitionsBean> partitions) {
             Glide.with(context).load(partitions.get(5).getPartition().getSub_icon().getSrc()).into(ivTitleImage);
             tvTitleText.setText(partitions.get(5).getPartition().getName());
-            tvNumberZhubo.setText("当前" + partitions.get(5).getPartition().getCount() + "个直播");
+            tvNumberZhubo.setText(partitions.get(5).getPartition().getCount() + "");
             netgameAdapter = new NetgameAdapter(context, partitions);
             gvVideo.setAdapter(netgameAdapter);
         }
@@ -368,7 +375,7 @@ public class DirectTvAdapter extends RecyclerView.Adapter {
         public void setData(List<DirecTvInfo.DataBean.PartitionsBean> partitions) {
             Glide.with(context).load(partitions.get(4).getPartition().getSub_icon().getSrc()).into(ivTitleImage);
             tvTitleText.setText(partitions.get(4).getPartition().getName());
-            tvNumberZhubo.setText("当前" + partitions.get(4).getPartition().getCount() + "个直播");
+            tvNumberZhubo.setText(partitions.get(4).getPartition().getCount() + "");
             singleAdapter = new SingleAdapter(context, partitions);
             gvVideo.setAdapter(singleAdapter);
         }
@@ -400,7 +407,7 @@ public class DirectTvAdapter extends RecyclerView.Adapter {
         public void setData(List<DirecTvInfo.DataBean.PartitionsBean> partitions) {
             Glide.with(context).load(partitions.get(3).getPartition().getSub_icon().getSrc()).into(ivTitleImage);
             tvTitleText.setText(partitions.get(3).getPartition().getName());
-            tvNumberZhubo.setText("当前" + partitions.get(3).getPartition().getCount() + "个直播");
+            tvNumberZhubo.setText(partitions.get(3).getPartition().getCount() + "");
 
 
             handGameAdapter = new HandGameAdapter(context, partitions);
@@ -435,7 +442,7 @@ public class DirectTvAdapter extends RecyclerView.Adapter {
         public void setData(List<DirecTvInfo.DataBean.PartitionsBean> partitions) {
             Glide.with(context).load(partitions.get(2).getPartition().getSub_icon().getSrc()).into(ivTitleImage);
             tvTitleText.setText(partitions.get(2).getPartition().getName());
-            tvNumberZhubo.setText("当前" + partitions.get(2).getPartition().getCount() + "个直播");
+            tvNumberZhubo.setText(partitions.get(2).getPartition().getCount() + "");
 
             singAdapter = new SingAdapter(context, partitions);
             gvVideo.setAdapter(singAdapter);
@@ -474,7 +481,7 @@ public class DirectTvAdapter extends RecyclerView.Adapter {
             Glide.with(context).load(partitions.get(1).getPartition().getSub_icon().getSrc()).into(ivTitleImage);
 
             tvTitleText.setText(partitions.get(1).getPartition().getName());
-            tvNumberZhubo.setText("当前" + partitions.get(1).getPartition().getCount() + "个直播");
+            tvNumberZhubo.setText(partitions.get(1).getPartition().getCount() + "");
 
             lifeAdapter = new LifeAdapter(context, partitions);
             gvVideo.setAdapter(lifeAdapter);
@@ -501,6 +508,9 @@ public class DirectTvAdapter extends RecyclerView.Adapter {
         @InjectView(R.id.ima_refresh)
         ImageView imaRefresh;
         private PaintAdapter paintAdapter;
+        private List<DirecTvInfo.DataBean.PartitionsBean> randomlist;
+        private Random r;
+
 
 
         public AreaViewHolder(Context context, View itemView) {
@@ -509,13 +519,40 @@ public class DirectTvAdapter extends RecyclerView.Adapter {
             ButterKnife.inject(this, itemView);
         }
 
-        public void setData(List<DirecTvInfo.DataBean.PartitionsBean> partitions) {
+        public void setData(final List<DirecTvInfo.DataBean.PartitionsBean> partitions) {
             Glide.with(context).load(partitions.get(0).getPartition().getSub_icon().getSrc()).into(ivTitleImage);
             tvTitleText.setText(partitions.get(0).getPartition().getName());
-            tvNumberZhubo.setText("当前" + partitions.get(0).getPartition().getCount() + "个直播");
+            tvNumberZhubo.setText(partitions.get(0).getPartition().getCount() + "");
 
-            paintAdapter = new PaintAdapter(context, partitions);
+            randomlist = new ArrayList<>();
+            r = new Random();
+
+            for (int i =0;i<4;i++){
+                randomlist.add(partitions.get(r.nextInt(9)));
+            }
+
+            paintAdapter = new PaintAdapter(context,randomlist);
             gvVideo.setAdapter(paintAdapter);
+
+            imaRefresh.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Animation animation = AnimationUtils.loadAnimation(context, R.anim.tip);
+                    LinearInterpolator lin = new LinearInterpolator();
+                    animation.setInterpolator(lin);
+
+                    imaRefresh.setAnimation(animation);
+                    randomlist.clear();
+
+                    for (int i =0;i<4;i++){
+                        randomlist.add(partitions.get(r.nextInt(9)));
+                    }
+                    paintAdapter = new PaintAdapter(context, randomlist);
+                    gvVideo.setAdapter(paintAdapter);
+                    paintAdapter.notifyDataSetChanged();
+                    animation.cancel();
+                }
+            });
         }
 
 /*
@@ -574,10 +611,10 @@ public class DirectTvAdapter extends RecyclerView.Adapter {
             ButterKnife.inject(this, itemView);
         }
 
-        public void setData(List<DirecTvInfo.DataBean.BannerBean> banner_info) {
+        public void setData(final List<DirecTvInfo.DataBean.BannerBean> banner_info) {
             List<String> images = new ArrayList<>();
-            for (int i = 0; i < 3; i++) {
-                images.add(banner_info.get(0).getImg());
+            for (int i = 0; i < banner_info.size(); i++) {
+                images.add(banner_info.get(i).getImg());
             }
             banner.setImages(images)
                     .setImageLoader(new ImageLoader() {
@@ -591,8 +628,21 @@ public class DirectTvAdapter extends RecyclerView.Adapter {
                         }
                     })
                     .start();
-            banner.isAutoPlay(false);
+            banner.isAutoPlay(true);
             banner.setBannerAnimation(ForegroundToBackgroundTransformer.class);
+
+            banner.setOnBannerListener(new OnBannerListener() {
+                @Override
+                public void OnBannerClick(int position) {
+                    Intent intent = new Intent(context, WebViewActivity.class);
+                    intent.putExtra("webviewbean",banner_info.get(position).getLink());
+                    intent.putExtra("webviewtitle",banner_info.get(position).getRemark());
+                    context.startActivity(intent);
+
+
+
+                }
+            });
 
 
         }

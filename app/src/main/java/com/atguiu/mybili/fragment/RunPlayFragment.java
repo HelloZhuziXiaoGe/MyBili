@@ -1,14 +1,15 @@
 package com.atguiu.mybili.fragment;
 
+import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.atguiu.mybili.R;
+import com.atguiu.mybili.WebViewActivity;
 import com.atguiu.mybili.adapter.RunPlayAdapter;
 import com.atguiu.mybili.adapter.RunTenPlayAdapter;
 import com.atguiu.mybili.base.BaseFragment;
@@ -88,18 +89,29 @@ public class RunPlayFragment extends BaseFragment {
     }
 
     private void initOneBanner() {
-        Glide.with(context).load("http://i0.hdslb.com/bfs/bangumi/790c62dc1d7752620e486480230bc01f4886cd46.jpg").into(ivOnebanner);
+        Glide.with(context).load("http://i0.hdslb.com/bfs/bangumi/a093348aea6f7def3ef45a68f6272270e5f0afb1.jpg").into(ivOnebanner);
         ivOnebanner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context, "梦之祭！研究室 21", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(context, "梦之祭！研究室 21", Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent(context, WebViewActivity.class);
+                intent.putExtra("webviewbean","http://www.bilibili.com/blackboard/activity-S1aPZanjx.html");
+                intent.putExtra("webviewtitle","2017年4月新番第1波公布！");
+                context.startActivity(intent);
+
+
             }
         });
-        Glide.with(context).load("http://i0.hdslb.com/bfs/bangumi/31f8adbe9de4ba004b8d97aa173b8d9978c71764.jpg").into(ivTwobanner);
+        Glide.with(context).load("http://i0.hdslb.com/bfs/bangumi/669ede525abf7e52c2ec0fefdee5eb9fe1a6cffc.jpg").into(ivTwobanner);
         ivTwobanner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context, "听说那一家子笨蛋又出来了！", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(context, "听说那一家子笨蛋又出来了！", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(context, WebViewActivity.class);
+                intent.putExtra("webviewbean","http://www.bilibili.com/blackboard/activity-rk0PH-M2e.html");
+                intent.putExtra("webviewtitle","【资讯档】2017年第12周");
+                context.startActivity(intent);
             }
         });
     }
