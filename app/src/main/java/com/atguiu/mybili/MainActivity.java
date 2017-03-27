@@ -19,7 +19,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.atguiu.mybili.adapter.MainViewPagerAdapter;
 import com.atguiu.mybili.base.BaseFragment;
@@ -29,6 +28,7 @@ import com.atguiu.mybili.fragment.PartitionFragment;
 import com.atguiu.mybili.fragment.RecommendFragment;
 import com.atguiu.mybili.fragment.RunPlayFragment;
 import com.atguiu.mybili.utils.CacheUtils;
+import com.xys.libzxing.zxing.activity.CaptureActivity;
 
 import java.util.ArrayList;
 
@@ -37,11 +37,13 @@ import butterknife.InjectView;
 
 public class MainActivity extends AppCompatActivity {
 
-
+    private static final int REQUEST_CODE = 7;
     @InjectView(R.id.chuaxianLeft)
     ImageView chuaxianLeft;
     @InjectView(R.id.iv_red)
     ImageView ivRed;
+    @InjectView(R.id.ll_some_image)
+    LinearLayout llSomeImage;
     @InjectView(R.id.iv_title_game)
     ImageView ivTitleGame;
     @InjectView(R.id.iv_title_download)
@@ -74,10 +76,11 @@ public class MainActivity extends AppCompatActivity {
     ImageView ivMaintitleSearch;
     @InjectView(R.id.item_live_layout)
     CardView itemLiveLayout;
-    @InjectView(R.id.ll_maintitle_search)
-    LinearLayout llMaintitleSearch;
     @InjectView(R.id.btn_maintitle_back)
     Button btnMaintitleBack;
+    @InjectView(R.id.ll_maintitle_search)
+    LinearLayout llMaintitleSearch;
+
     private ArrayList<BaseFragment> fragments;
     private MainViewPagerAdapter mainViewPager;
 
@@ -109,6 +112,22 @@ public class MainActivity extends AppCompatActivity {
         } else {
             mSwitchMode.setImageResource(R.drawable.ic_switch_night);
         }
+
+        //给头布局头像设置点击事件
+         ImageView headView = (ImageView) headerView.findViewById(R.id.user_avatar_view);
+
+        headerView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this,LoginActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
+
+
+
     }
 
     private void switchNightMode() {
@@ -128,16 +147,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initListener() {
-        chuaxianLeft.setOnClickListener(new View.OnClickListener() {
+        llSomeImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 idDrawerLayout.openDrawer(GravityCompat.START);
             }
         });
-
-
-
-
 
         ivTitleSearch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -151,16 +166,21 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 llMaintitleSearch.setVisibility(View.GONE);
-                InputMethodManager imm =  (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
                 //imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
-                imm.hideSoftInputFromWindow(edtMaintitleText.getWindowToken(),0);
+                imm.hideSoftInputFromWindow(edtMaintitleText.getWindowToken(), 0);
 
             }
         });
         ivMaintitleScan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(MainActivity.this, "扫描二维码", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MainActivity.this, "扫描二维码", Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent(MainActivity.this, CaptureActivity.class);
+                startActivityForResult(intent, REQUEST_CODE);
+
+
             }
         });
         ivMaintitleSearch.setOnClickListener(new View.OnClickListener() {
@@ -168,8 +188,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String content = edtMaintitleText.getText().toString().trim();
 
-                Intent intent = new Intent(MainActivity.this,PlaySearchActivity.class);
-                intent.putExtra("content",content);
+                Intent intent = new Intent(MainActivity.this, PlaySearchActivity.class);
+                intent.putExtra("content", content);
                 startActivity(intent);
                 llMaintitleSearch.setVisibility(View.GONE);
 
@@ -181,15 +201,25 @@ public class MainActivity extends AppCompatActivity {
                 llMaintitleSearch.setVisibility(View.GONE);
                 InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
                 //imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
-                imm.hideSoftInputFromWindow(edtMaintitleText.getWindowToken(),0);
+                imm.hideSoftInputFromWindow(edtMaintitleText.getWindowToken(), 0);
 
             }
         });
 
 
-
-
     }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // TODO Auto-generated method stub
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            String result = data.getExtras().getString("result");
+            //得到返回结果
+        }
+    }
+
 
     private void initAdapter() {
         mainViewPager = new MainViewPagerAdapter(getSupportFragmentManager(), fragments);

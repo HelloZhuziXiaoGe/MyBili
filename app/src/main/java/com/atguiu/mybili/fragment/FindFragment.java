@@ -17,8 +17,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.atguiu.mybili.MainActivity;
+import com.atguiu.mybili.OriginalRanklistActivity;
 import com.atguiu.mybili.PlaySearchActivity;
 import com.atguiu.mybili.R;
+import com.atguiu.mybili.ShoppingActivity;
+import com.atguiu.mybili.TopicCenterActivity;
 import com.atguiu.mybili.base.BaseFragment;
 import com.atguiu.mybili.bean.TagBean;
 import com.google.gson.Gson;
@@ -187,7 +190,40 @@ public class FindFragment extends BaseFragment {
 
             }
         });
-
+        topicCenterLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context,TopicCenterActivity.class);
+                startActivity(intent);
+            }
+        });
+        activityCenterLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context,TopicCenterActivity.class);
+                startActivity(intent);
+            }
+        });
+        layoutOriginal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context,OriginalRanklistActivity.class);
+                startActivity(intent);
+            }
+        });
+        layoutAllRank.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(context, "和原创排行榜差不多，有时间再做", Toast.LENGTH_SHORT).show();
+            }
+        });
+        layoutShop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context,ShoppingActivity.class);
+                startActivity(intent);
+            }
+        });
 
     }
 

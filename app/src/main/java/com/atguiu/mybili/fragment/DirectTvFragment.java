@@ -41,7 +41,6 @@ public class DirectTvFragment extends BaseFragment {
 
         View view = View.inflate(context, R.layout.fragment_directvfragment, null);
         ButterKnife.inject(this, view);
-
         return view;
     }
 
