@@ -10,6 +10,8 @@ import android.os.Handler;
 
 public class MyApplication extends Application {
 
+
+
     private static Context context;
     private static Thread mainThread;
     private static int  threadid;
@@ -22,9 +24,15 @@ public class MyApplication extends Application {
         threadid = android.os.Process.myPid();
         handler = new Handler();
 
+
+
         //初始化未捕获异常 上线的时候才打开
         //CrashHandler.getInstance().init();
     }
+
+
+
+
 
     public static Context getContext() {
         return context;

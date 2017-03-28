@@ -1,11 +1,15 @@
 package com.atguiu.mybili;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -19,6 +23,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.atguiu.mybili.adapter.MainViewPagerAdapter;
 import com.atguiu.mybili.base.BaseFragment;
@@ -28,6 +33,7 @@ import com.atguiu.mybili.fragment.PartitionFragment;
 import com.atguiu.mybili.fragment.RecommendFragment;
 import com.atguiu.mybili.fragment.RunPlayFragment;
 import com.atguiu.mybili.utils.CacheUtils;
+import com.atguiu.mybili.view.CircleImageView;
 import com.xys.libzxing.zxing.activity.CaptureActivity;
 
 import java.util.ArrayList;
@@ -40,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_CODE = 7;
     @InjectView(R.id.chuaxianLeft)
     ImageView chuaxianLeft;
+    @InjectView(R.id.iv_circleview)
+    CircleImageView ivCircleview;
     @InjectView(R.id.iv_red)
     ImageView ivRed;
     @InjectView(R.id.ll_some_image)
@@ -81,21 +89,53 @@ public class MainActivity extends AppCompatActivity {
     @InjectView(R.id.ll_maintitle_search)
     LinearLayout llMaintitleSearch;
 
+
     private ArrayList<BaseFragment> fragments;
     private MainViewPagerAdapter mainViewPager;
+
+    //广播接收器
+    LocalBroadcastManager broadcastManager;
+    IntentFilter intentFilter;
+    BroadcastReceiver mReceiver;
+
+
+    private boolean isswitchhead = true;
+    private ImageView headView;
+    private TextView switchusername;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
+        broadcastManager = LocalBroadcastManager.getInstance(MainActivity.this);
+        intentFilter = new IntentFilter();
+        intentFilter.addAction("canswitchhead");
+        mReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                ivCircleview.setImageResource(R.drawable.headview);
+
+                headView.setImageResource(R.drawable.headview);
+                switchusername.setText("蜡笔小新");
+                isswitchhead = false;
+
+            }
+        };
+        broadcastManager.registerReceiver(mReceiver, intentFilter);
+
+
 
         initFragment();
         initAdapter();
         initListener();
         SwitchDayandNight();
 
+
+
     }
+
+
 
     private void SwitchDayandNight() {
         View headerView = navigationView.getHeaderView(0);
@@ -114,18 +154,20 @@ public class MainActivity extends AppCompatActivity {
         }
 
         //给头布局头像设置点击事件
-         ImageView headView = (ImageView) headerView.findViewById(R.id.user_avatar_view);
+        headView = (ImageView) headerView.findViewById(R.id.user_avatar_view);
+        switchusername = (TextView) headerView.findViewById(R.id.user_name);
+
 
         headerView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this,LoginActivity.class);
-                startActivity(intent);
+                if(isswitchhead){
+
+                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                }
             }
         });
-
-
-
 
 
     }
@@ -243,6 +285,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        broadcastManager.unregisterReceiver(mReceiver);
         ButterKnife.reset(this);
     }
 }

@@ -1,11 +1,26 @@
 apply plugin: 'com.android.application'
+apply plugin: 'org.greenrobot.greendao'
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'org.greenrobot:greendao-gradle-plugin:3.0.0'
+    }
+}
+greendao {
+    schemaVersion 1
+    daoPackage 'com.atguiu.mybili.gen'
+    targetGenDir 'src/main/java'
+}
+
 
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
     defaultConfig {
         applicationId "com.atguiu.mybili"
-        minSdkVersion 19
+        minSdkVersion 23
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
@@ -38,6 +53,8 @@ dependencies {
     compile 'com.github.CarGuo:GSYVideoPlayer:v1.6.1'
     compile 'com.github.ctiao:dfm:0.7.3'
     compile project(':libzxing')
+    compile'org.greenrobot:greendao:3.0.1'
+    compile'org.greenrobot:greendao-generator:3.0.0'
 
 
 }

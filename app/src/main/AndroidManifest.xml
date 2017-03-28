@@ -56,6 +56,7 @@
         </activity>
         <activity
             android:name=".MainActivity"
+            android:launchMode="singleTask"
             android:theme="@style/AppTheme" />
         <activity android:name=".PlaySearchActivity" />
         <activity android:name=".WebViewActivity" />
@@ -72,7 +73,8 @@
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity android:name=".ShoppingActivity" />
-        <activity android:name=".LoginActivity"></activity>
+        <activity android:name=".LoginActivity" />
+        <activity android:name=".GoodsInfoActivity"></activity>
     </application>
 
 </manifest>

@@ -59,6 +59,7 @@
                                     android:src="@drawable/ic_drawer_home" />
 
                                 <com.atguiu.mybili.view.CircleImageView
+                                    android:id="@+id/iv_circleview"
                                     android:layout_width="34dp"
                                     android:layout_height="34dp"
                                     android:layout_marginLeft="15dp"

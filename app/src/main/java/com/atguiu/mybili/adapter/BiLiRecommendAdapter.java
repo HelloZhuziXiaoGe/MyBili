@@ -78,71 +78,13 @@ public class BiLiRecommendAdapter extends RecyclerView.Adapter {
         }
     }
 
-   /* private Utils utils;
-    private final Context context;
-    private final List<RecommendBean.DataBean> datas;
+   public void AddHeaderItem(List<RecommendBean.DataBean> data){
+       datas.addAll(0,data);
+       notifyDataSetChanged();
+   }
 
-    public BiLiRecommendAdapter(Context context, List<RecommendBean.DataBean> data) {
-        this.context = context;
-        this.datas = data;
-        utils = new Utils();
+    public void AddFooterItem(List<RecommendBean.DataBean> data){
+        datas.addAll(data);
+        notifyDataSetChanged();
     }
-
-    @Override
-    public int getCount() {
-        return datas.size();
-    }
-
-    @Override
-    public Object getItem(int i) {
-        return null;
-    }
-
-    @Override
-    public long getItemId(int i) {
-        return 0;
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder viewHolder = null;
-
-        if (convertView == null) {
-            convertView = View.inflate(context, R.layout.item_bilirecommend, null);
-            viewHolder = new ViewHolder(convertView);
-            convertView.setTag(viewHolder);
-        } else {
-            viewHolder = (ViewHolder) convertView.getTag();
-        }
-        Glide.with(context).load(datas.get(position).getCover()).into(viewHolder.ivBiliRcommendImage);
-
-        viewHolder.tvPlaynumber.setText(datas.get(position).getPlay()+"");
-        viewHolder.tvDanmuku.setText(datas.get(position).getDanmaku()+"");
-        viewHolder.tvVideoTime.setText(utils.stringForTime(datas.get(position).getCtime()*1000));
-        viewHolder.tvTitle.setText(datas.get(position).getTitle()+"");
-        viewHolder.tvTags.setText(datas.get(position).getTname()+"");
-
-        return convertView;
-    }
-
-     class ViewHolder {
-        @InjectView(R.id.iv_biliRcommend_image)
-        ImageView ivBiliRcommendImage;
-        @InjectView(R.id.tv_playnumber)
-        TextView tvPlaynumber;
-        @InjectView(R.id.tv_danmuku)
-        TextView tvDanmuku;
-        @InjectView(R.id.tv_video_time)
-        TextView tvVideoTime;
-        @InjectView(R.id.tv_title)
-        TextView tvTitle;
-        @InjectView(R.id.tv_tags)
-        TextView tvTags;
-        @InjectView(R.id.image_more)
-        ImageView imageMore;
-
-        ViewHolder(View view) {
-            ButterKnife.inject(this, view);
-        }
-    }*/
 }
