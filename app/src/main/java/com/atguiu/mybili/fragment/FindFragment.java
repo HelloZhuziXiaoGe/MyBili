@@ -157,9 +157,9 @@ public class FindFragment extends BaseFragment {
             @Override
             public void onClick(View view) {
                 llMaintitleSearch.setVisibility(View.GONE);
-                InputMethodManager imm = (InputMethodManager) getActivity(). getSystemService(INPUT_METHOD_SERVICE);
+                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(INPUT_METHOD_SERVICE);
                 //imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
-                imm.hideSoftInputFromWindow(edtMaintitleText.getWindowToken(),0);
+                imm.hideSoftInputFromWindow(edtMaintitleText.getWindowToken(), 0);
 
             }
         });
@@ -173,8 +173,8 @@ public class FindFragment extends BaseFragment {
             @Override
             public void onClick(View view) {
                 String content = edtMaintitleText.getText().toString().trim();
-                Intent intent = new Intent(getActivity(),PlaySearchActivity.class);
-                intent.putExtra("content",content);
+                Intent intent = new Intent(getActivity(), PlaySearchActivity.class);
+                intent.putExtra("content", content);
                 startActivity(intent);
                 llMaintitleSearch.setVisibility(View.GONE);
 
@@ -186,28 +186,28 @@ public class FindFragment extends BaseFragment {
                 llMaintitleSearch.setVisibility(View.GONE);
                 InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(INPUT_METHOD_SERVICE);
                 //imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
-                imm.hideSoftInputFromWindow(edtMaintitleText.getWindowToken(),0);
+                imm.hideSoftInputFromWindow(edtMaintitleText.getWindowToken(), 0);
 
             }
         });
         topicCenterLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context,TopicCenterActivity.class);
+                Intent intent = new Intent(context, TopicCenterActivity.class);
                 startActivity(intent);
             }
         });
         activityCenterLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context,TopicCenterActivity.class);
+                Intent intent = new Intent(context, TopicCenterActivity.class);
                 startActivity(intent);
             }
         });
         layoutOriginal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context,OriginalRanklistActivity.class);
+                Intent intent = new Intent(context, OriginalRanklistActivity.class);
                 startActivity(intent);
             }
         });
@@ -220,7 +220,7 @@ public class FindFragment extends BaseFragment {
         layoutShop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context,ShoppingActivity.class);
+                Intent intent = new Intent(context, ShoppingActivity.class);
                 startActivity(intent);
             }
         });
@@ -267,8 +267,8 @@ public class FindFragment extends BaseFragment {
                     @Override
                     public void onClick(View view) {
 
-                        Intent intent = new Intent(getActivity(),PlaySearchActivity.class);
-                        intent.putExtra("content",mTags.getText());
+                        Intent intent = new Intent(getActivity(), PlaySearchActivity.class);
+                        intent.putExtra("content", mTags.getText());
                         startActivity(intent);
                     }
                 });
@@ -288,8 +288,8 @@ public class FindFragment extends BaseFragment {
                     @Override
                     public void onClick(View view) {
 
-                        Intent intent = new Intent(getActivity(),PlaySearchActivity.class);
-                        intent.putExtra("content",mTags.getText());
+                        Intent intent = new Intent(getActivity(), PlaySearchActivity.class);
+                        intent.putExtra("content", mTags.getText());
                         startActivity(intent);
                     }
                 });
@@ -299,10 +299,7 @@ public class FindFragment extends BaseFragment {
         });
 
 
-
-
     }
-
 
 
 }

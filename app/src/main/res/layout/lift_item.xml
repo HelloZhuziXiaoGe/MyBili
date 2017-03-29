@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="5dp"
     android:orientation="vertical">
 
 
@@ -11,11 +10,12 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <LinearLayout
+        <com.bilibili.magicasakura.widgets.TintLinearLayout
             android:id="@+id/ll_recommend_zhubo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:background="@color/theme_color_primary"
             android:orientation="horizontal"
             android:paddingBottom="5dp"
             android:paddingTop="5dp">
@@ -61,7 +61,7 @@
                 android:layout_marginRight="3dp"
                 android:background="@drawable/ic_vip_go" />
 
-        </LinearLayout>
+        </com.bilibili.magicasakura.widgets.TintLinearLayout>
 
         <GridView
             android:id="@+id/gv_video"
@@ -70,38 +70,39 @@
             android:numColumns="2"></GridView>
 
     </LinearLayout>
-    <LinearLayout
-        android:layout_marginTop="10dp"
-        android:padding="5dp"
-        android:gravity="center"
+    <com.bilibili.magicasakura.widgets.TintLinearLayout
         android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:orientation="horizontal">
+        android:layout_height="45dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:background="@color/theme_color_primary"
+        >
         <Button
             android:id="@+id/btn_watch_more"
             android:layout_width="110dp"
-            android:layout_height="60dp"
-            android:text="查看更多"/>
+            android:layout_height="40dp"
+            android:text="查看更多" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            />
+            android:layout_weight="1" />
+
         <TextView
-            android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="8条动态，点击刷新"/>
+            android:gravity="center_vertical"
+            android:text="8条动态，点击刷新" />
 
         <ImageView
-            android:layout_marginLeft="8dp"
             android:id="@+id/ima_refresh"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:paddingRight="8dp"
-            android:background="@drawable/tag_center_refresh_icon"
-            />
+            android:layout_marginLeft="8dp"
+            android:background="@drawable/ic_category_more_refresh"
+            android:paddingRight="8dp" />
 
-    </LinearLayout>
+
+    </com.bilibili.magicasakura.widgets.TintLinearLayout>
 
 </LinearLayout>

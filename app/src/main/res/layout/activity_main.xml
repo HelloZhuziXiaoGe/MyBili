@@ -6,7 +6,6 @@
     android:layout_height="match_parent">
 
 
-
     <android.support.v4.widget.DrawerLayout
 
         android:id="@+id/id_drawer_layout"
@@ -31,27 +30,28 @@
                     android:orientation="vertical"
                     app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-                    <android.support.v7.widget.Toolbar
+                    <com.bilibili.magicasakura.widgets.TintToolbar
                         android:id="@+id/toobar"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:layout_marginLeft="-16dp"
+                        android:background="@color/theme_color_primary"
                         app:menu="@menu/main_layout">
 
                         <LinearLayout
                             android:id="@+id/navigation_layout"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:background="#fb7299"
                             android:gravity="center_vertical"
                             android:orientation="horizontal">
 
                             <LinearLayout
                                 android:id="@+id/ll_some_image"
-                                android:gravity="center_vertical"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
+                                android:gravity="center_vertical"
                                 android:orientation="horizontal">
+
                                 <ImageView
                                     android:id="@+id/chuaxianLeft"
                                     android:layout_width="wrap_content"
@@ -76,6 +76,7 @@
                                     android:background="@drawable/image_red" />
 
                                 <TextView
+                                    android:id="@+id/tv_headviewname"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="5dp"
@@ -88,7 +89,6 @@
                             </LinearLayout>
 
 
-
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -96,8 +96,8 @@
 
                             <ImageView
                                 android:id="@+id/iv_title_game"
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
+                                android:layout_width="28dp"
+                                android:layout_height="25dp"
                                 android:layout_marginLeft="15dp"
                                 android:layout_marginRight="15dp"
                                 android:background="@drawable/ic_menu_top_game_center" />
@@ -106,6 +106,8 @@
                                 android:id="@+id/iv_title_download"
                                 android:layout_width="28dp"
                                 android:layout_height="28dp"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginRight="5dp"
                                 android:background="@drawable/ic_download_white" />
 
                             <ImageView
@@ -118,17 +120,22 @@
 
                         </LinearLayout>
 
-                    </android.support.v7.widget.Toolbar>
+                    </com.bilibili.magicasakura.widgets.TintToolbar>
 
-
-                    <android.support.design.widget.TabLayout
-                        android:id="@+id/tablayout"
-                        style="@style/MyCustomTabLayout"
+                    <com.bilibili.magicasakura.widgets.TintFrameLayout
                         android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:layout_gravity="center"
+                        android:background="@color/theme_color_primary"
+                        android:layout_height="50dp">
 
-                        android:background="#fb7299" />
+                        <android.support.design.widget.TabLayout
+                            android:id="@+id/tablayout"
+                            style="@style/MyCustomTabLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            />
+                    </com.bilibili.magicasakura.widgets.TintFrameLayout>
+
                 </LinearLayout>
 
             </android.support.design.widget.AppBarLayout>
@@ -155,5 +162,5 @@
         </android.support.design.widget.NavigationView>
     </android.support.v4.widget.DrawerLayout>
 
-    <include layout="@layout/maintitle_search"/>
+    <include layout="@layout/maintitle_search" />
 </FrameLayout>

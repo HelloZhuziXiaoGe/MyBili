@@ -6,10 +6,11 @@
     android:layout_height="200dp"
     android:clickable="true">
 
-    <FrameLayout
+    <com.bilibili.magicasakura.widgets.TintFrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#fb7299">
+        android:backgroundTint="@color/theme_color_primary"
+        >
 
         <ImageView
             android:id="@+id/background_image_view"
@@ -19,12 +20,13 @@
             android:clickable="true"
             android:src="@drawable/home_menu_bg_click"
             android:tint="#F8668D" />
-    </FrameLayout>
+    </com.bilibili.magicasakura.widgets.TintFrameLayout>
 
-    <RelativeLayout
+    <com.bilibili.magicasakura.widgets.TintRelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
+        android:background="@color/theme_color_primary"
         android:paddingTop="16dp">
 
         <com.atguiu.mybili.view.CircleImageView
@@ -127,7 +129,7 @@
 
         </LinearLayout>
 
-    </RelativeLayout>
+    </com.bilibili.magicasakura.widgets.TintRelativeLayout>
 
 
 </FrameLayout>

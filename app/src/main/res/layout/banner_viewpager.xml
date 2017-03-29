@@ -14,10 +14,11 @@
         app:indicator_width="5dp"
         app:image_scale_type="fit_xy"
         app:is_auto_play="true" />
-    <LinearLayout
+    <com.bilibili.magicasakura.widgets.TintLinearLayout
         android:id="@+id/ll_watch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/theme_color_primary"
         android:orientation="horizontal">
         <LinearLayout
             android:layout_weight="1"
@@ -51,23 +52,7 @@
                 android:layout_height="wrap_content"
                 android:text="中心"/>
         </LinearLayout>
-        <LinearLayout
-            android:id="@+id/ll_game"
-            android:gravity="center"
-            android:layout_weight="1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <ImageView
-                android:padding="5dp"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:background="@drawable/ic_btn_game"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="小游戏"/>
-        </LinearLayout>
+
         <LinearLayout
             android:id="@+id/ll_search"
             android:gravity="center"
@@ -103,6 +88,6 @@
         </LinearLayout>
 
 
-    </LinearLayout>
+    </com.bilibili.magicasakura.widgets.TintLinearLayout>
 
 </LinearLayout>

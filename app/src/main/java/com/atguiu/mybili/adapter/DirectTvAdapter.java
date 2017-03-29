@@ -596,8 +596,6 @@ public class DirectTvAdapter extends RecyclerView.Adapter {
         Banner banner;
         @InjectView(R.id.ll_center)
         LinearLayout llCenter;
-        @InjectView(R.id.ll_game)
-        LinearLayout llGame;
         @InjectView(R.id.ll_search)
         LinearLayout llSearch;
         @InjectView(R.id.ll_type)

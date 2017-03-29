@@ -20,7 +20,7 @@ android {
     buildToolsVersion "25.0.2"
     defaultConfig {
         applicationId "com.atguiu.mybili"
-        minSdkVersion 23
+        minSdkVersion 19
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
@@ -53,8 +53,11 @@ dependencies {
     compile 'com.github.CarGuo:GSYVideoPlayer:v1.6.1'
     compile 'com.github.ctiao:dfm:0.7.3'
     compile project(':libzxing')
-    compile'org.greenrobot:greendao:3.0.1'
-    compile'org.greenrobot:greendao-generator:3.0.0'
-
-
+    compile 'org.greenrobot:greendao:3.0.1'
+    compile 'org.greenrobot:greendao-generator:3.0.0'
+    compile files('libs/alipaySdk-20160825.jar')
+    compile 'com.squareup.retrofit2:retrofit:2.2.0'
+    compile 'com.bilibili:magicasakura:0.1.5@aar'
+    compile files('libs/jcore-android_v1.1.1.jar')
+    compile files('libs/jpush-android_v3.0.3.jar')
 }

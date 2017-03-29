@@ -1,9 +1,12 @@
 package com.atguiu.mybili;
 
+import android.app.Activity;
+import android.app.ActivityManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
@@ -14,7 +17,6 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -32,11 +34,13 @@ import com.atguiu.mybili.fragment.FindFragment;
 import com.atguiu.mybili.fragment.PartitionFragment;
 import com.atguiu.mybili.fragment.RecommendFragment;
 import com.atguiu.mybili.fragment.RunPlayFragment;
-import com.atguiu.mybili.utils.CacheUtils;
+import com.atguiu.mybili.theme.ThemeHelper;
 import com.atguiu.mybili.view.CircleImageView;
+import com.bilibili.magicasakura.utils.ThemeUtils;
 import com.xys.libzxing.zxing.activity.CaptureActivity;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -88,6 +92,8 @@ public class MainActivity extends AppCompatActivity {
     Button btnMaintitleBack;
     @InjectView(R.id.ll_maintitle_search)
     LinearLayout llMaintitleSearch;
+    @InjectView(R.id.tv_headviewname)
+    TextView tvHeadviewname;
 
 
     private ArrayList<BaseFragment> fragments;
@@ -115,6 +121,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onReceive(Context context, Intent intent) {
                 ivCircleview.setImageResource(R.drawable.headview);
+                tvHeadviewname.setText("蜡笔小新");
 
                 headView.setImageResource(R.drawable.headview);
                 switchusername.setText("蜡笔小新");
@@ -125,16 +132,13 @@ public class MainActivity extends AppCompatActivity {
         broadcastManager.registerReceiver(mReceiver, intentFilter);
 
 
-
         initFragment();
         initAdapter();
         initListener();
         SwitchDayandNight();
 
 
-
     }
-
 
 
     private void SwitchDayandNight() {
@@ -143,15 +147,26 @@ public class MainActivity extends AppCompatActivity {
         mSwitchMode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                switchNightMode();
+                int[] curr = {ThemeHelper.CARD_SAKURA,ThemeHelper.CARD_HOPE,ThemeHelper.CARD_STORM,ThemeHelper.CARD_WOOD,ThemeHelper.CARD_LIGHT,
+                        ThemeHelper.CARD_THUNDER,ThemeHelper.CARD_SAND,ThemeHelper.CARD_FIREY};
+
+                Random random = new Random();
+                int number = random.nextInt(7);
+
+                switchNightMode(curr[number]);
+               /// switchNightMode();
             }
         });
-        boolean flag = CacheUtils.getBoolean(this, "mybili");
+
+
+
+        //根据主题状态设置图片
+       /* boolean flag = CacheUtils.getBoolean(this, "mybili");
         if (flag) {
             mSwitchMode.setImageResource(R.drawable.ic_switch_daily);
         } else {
             mSwitchMode.setImageResource(R.drawable.ic_switch_night);
-        }
+        }*/
 
         //给头布局头像设置点击事件
         headView = (ImageView) headerView.findViewById(R.id.user_avatar_view);
@@ -161,7 +176,7 @@ public class MainActivity extends AppCompatActivity {
         headerView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(isswitchhead){
+                if (isswitchhead) {
 
                     Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                     startActivity(intent);
@@ -172,21 +187,44 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void switchNightMode() {
+    private void switchNightMode(int currentTheme) {
+        ///设置切换主题
+       // recreate();
+        if (ThemeHelper.getTheme(MainActivity.this) != currentTheme) {
+            ThemeHelper.setTheme(MainActivity.this, currentTheme);
+            ThemeUtils.refreshUI(MainActivity.this, new ThemeUtils.ExtraRefreshable() {
+                        @Override
+                        public void refreshGlobal(Activity activity) {
+                            //for global setting, just do once
+                            if (Build.VERSION.SDK_INT >= 21) {
+                                final MainActivity context = MainActivity.this;
+                                ActivityManager.TaskDescription taskDescription = new ActivityManager.TaskDescription(null, null, ThemeUtils.getThemeAttrColor(context, android.R.attr.colorPrimary));
+                                setTaskDescription(taskDescription);
+                                getWindow().setStatusBarColor(ThemeUtils.getColorById(context, R.color.theme_color_primary));
+                            }
+                        }
 
-        boolean isNight = CacheUtils.getBoolean(this, "mybili");
-        if (isNight) {
-            // 日间模式
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-            CacheUtils.putBoolean(this, "mybili", false);
-        } else {
-            // 夜间模式
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-            CacheUtils.putBoolean(this, "mybili", true);
+                        @Override
+                        public void refreshSpecificView(View view) {
+                            //TODO: will do this for each traversal
+                        }
+                    }
+            );
+           /* View view = findViewById(R.id.snack_layout);
+            if (view != null) {
+                TextView textView = (TextView) view.findViewById(R.id.content);
+                textView.setText(getSnackContent(currentTheme));
+                SnackAnimationUtil.with(this, R.anim.snack_in, R.anim.snack_out)
+                        .setDismissDelayTime(1000)
+                        .setTarget(view)
+                        .play();*/
+            }
         }
 
-        recreate();
-    }
+
+
+
+
 
     private void initListener() {
         llSomeImage.setOnClickListener(new View.OnClickListener() {
@@ -247,7 +285,13 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
+        ivTitleDownload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this,DownloadListActivity.class);
+                startActivity(intent);
+            }
+        });
 
     }
 

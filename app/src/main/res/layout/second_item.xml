@@ -4,12 +4,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
+    <com.bilibili.magicasakura.widgets.TintLinearLayout
         android:id="@+id/ll_recommend_zhubo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="horizontal"
+        android:background="@color/theme_color_primary"
         android:paddingBottom="5dp"
         android:paddingTop="5dp">
 
@@ -49,12 +50,13 @@
             android:layout_marginRight="3dp"
             android:background="@drawable/ic_vip_go" />
 
-    </LinearLayout>
+    </com.bilibili.magicasakura.widgets.TintLinearLayout>
 
     <GridView
         android:id="@+id/gv_recommend"
         android:layout_width="match_parent"
-        android:layout_height="800dp"
+        android:layout_height="785dp"
+
         android:numColumns="2"></GridView>
 
 </LinearLayout>
