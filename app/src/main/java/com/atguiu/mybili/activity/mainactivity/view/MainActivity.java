@@ -1,4 +1,4 @@
-package com.atguiu.mybili;
+package com.atguiu.mybili.activity.mainactivity.view;
 
 import android.app.Activity;
 import android.app.ActivityManager;
@@ -27,12 +27,17 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.atguiu.mybili.DownloadListActivity;
+import com.atguiu.mybili.LoginActivity;
+import com.atguiu.mybili.PlaySearchActivity;
+import com.atguiu.mybili.R;
+import com.atguiu.mybili.activity.mainactivity.presenter.MainPresenter;
 import com.atguiu.mybili.adapter.MainViewPagerAdapter;
 import com.atguiu.mybili.base.BaseFragment;
-import com.atguiu.mybili.fragment.DirectTvFragment;
-import com.atguiu.mybili.fragment.FindFragment;
+import com.atguiu.mybili.fragment.view.DirectTvFragment;
+import com.atguiu.mybili.fragment.view.FindFragment;
 import com.atguiu.mybili.fragment.PartitionFragment;
-import com.atguiu.mybili.fragment.RecommendFragment;
+import com.atguiu.mybili.fragment.view.RecommendFragment;
 import com.atguiu.mybili.fragment.RunPlayFragment;
 import com.atguiu.mybili.theme.ThemeHelper;
 import com.atguiu.mybili.view.CircleImageView;
@@ -45,7 +50,7 @@ import java.util.Random;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements IMainView{
 
     private static final int REQUEST_CODE = 7;
     @InjectView(R.id.chuaxianLeft)
@@ -109,11 +114,105 @@ public class MainActivity extends AppCompatActivity {
     private ImageView headView;
     private TextView switchusername;
 
+    private MainPresenter mainPresenter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
+        mainPresenter = new MainPresenter(this);
+        mainPresenter.registerBroadcast();
+
+
+        mainPresenter.initFragment();
+        mainPresenter.initAdapter();
+        initListener();
+        mainPresenter.switchDayandNightAndtoLoginActivity();
+
+    }
+
+
+
+    private void initListener() {
+        llSomeImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               mainPresenter.openDrawer();
+            }
+        });
+
+        ivTitleSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+             mainPresenter.showllMaintitleSearch();
+
+
+            }
+        });
+        ivMaintitleBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mainPresenter.backllMaintitleSearchAndSoftInput();
+
+            }
+        });
+        ivMaintitleScan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Toast.makeText(MainActivity.this, "扫描二维码", Toast.LENGTH_SHORT).show();
+            mainPresenter.toCaptureActivity();
+
+
+            }
+        });
+        ivMaintitleSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+             mainPresenter.toPlaySearcheActivity();
+
+            }
+        });
+        btnMaintitleBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //这个和返回的键调用的方法是一样的
+                mainPresenter.backllMaintitleSearchAndSoftInput();
+            }
+        });
+        ivTitleDownload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mainPresenter.toDownloadListActivity();
+            }
+        });
+
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // TODO Auto-generated method stub
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            String result = data.getExtras().getString("result");
+            //得到返回结果
+        }
+    }
+
+
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        broadcastManager.unregisterReceiver(mReceiver);
+        ButterKnife.reset(this);
+    }
+
+    @Override
+    public void registerBroadcast() {
         broadcastManager = LocalBroadcastManager.getInstance(MainActivity.this);
         intentFilter = new IntentFilter();
         intentFilter.addAction("canswitchhead");
@@ -130,43 +229,25 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         broadcastManager.registerReceiver(mReceiver, intentFilter);
-
-
-        initFragment();
-        initAdapter();
-        initListener();
-        SwitchDayandNight();
-
-
     }
 
-
-    private void SwitchDayandNight() {
+    @Override
+    public void switchDayandNight() {
         View headerView = navigationView.getHeaderView(0);
         ImageView mSwitchMode = (ImageView) headerView.findViewById(R.id.iv_head_switch_mode);
         mSwitchMode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int[] curr = {ThemeHelper.CARD_SAKURA,ThemeHelper.CARD_HOPE,ThemeHelper.CARD_STORM,ThemeHelper.CARD_WOOD,ThemeHelper.CARD_LIGHT,
-                        ThemeHelper.CARD_THUNDER,ThemeHelper.CARD_SAND,ThemeHelper.CARD_FIREY};
+                int[] curr = {ThemeHelper.CARD_SAKURA, ThemeHelper.CARD_HOPE, ThemeHelper.CARD_STORM, ThemeHelper.CARD_WOOD, ThemeHelper.CARD_LIGHT,
+                        ThemeHelper.CARD_THUNDER, ThemeHelper.CARD_SAND, ThemeHelper.CARD_FIREY};
 
                 Random random = new Random();
                 int number = random.nextInt(7);
 
                 switchNightMode(curr[number]);
-               /// switchNightMode();
+                /// switchNightMode();
             }
         });
-
-
-
-        //根据主题状态设置图片
-       /* boolean flag = CacheUtils.getBoolean(this, "mybili");
-        if (flag) {
-            mSwitchMode.setImageResource(R.drawable.ic_switch_daily);
-        } else {
-            mSwitchMode.setImageResource(R.drawable.ic_switch_night);
-        }*/
 
         //给头布局头像设置点击事件
         headView = (ImageView) headerView.findViewById(R.id.user_avatar_view);
@@ -177,19 +258,17 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (isswitchhead) {
-
+                    //将跳转Intent的写到了这里
                     Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                     startActivity(intent);
+
                 }
             }
         });
-
-
     }
-
     private void switchNightMode(int currentTheme) {
         ///设置切换主题
-       // recreate();
+        // recreate();
         if (ThemeHelper.getTheme(MainActivity.this) != currentTheme) {
             ThemeHelper.setTheme(MainActivity.this, currentTheme);
             ThemeUtils.refreshUI(MainActivity.this, new ThemeUtils.ExtraRefreshable() {
@@ -210,126 +289,76 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
             );
-           /* View view = findViewById(R.id.snack_layout);
-            if (view != null) {
-                TextView textView = (TextView) view.findViewById(R.id.content);
-                textView.setText(getSnackContent(currentTheme));
-                SnackAnimationUtil.with(this, R.anim.snack_in, R.anim.snack_out)
-                        .setDismissDelayTime(1000)
-                        .setTarget(view)
-                        .play();*/
-            }
         }
+    }
 
-
-
-
-
-
-    private void initListener() {
-        llSomeImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                idDrawerLayout.openDrawer(GravityCompat.START);
-            }
-        });
-
-        ivTitleSearch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                llMaintitleSearch.setVisibility(View.VISIBLE);
-
-
-            }
-        });
-        ivMaintitleBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                llMaintitleSearch.setVisibility(View.GONE);
-                InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-                //imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
-                imm.hideSoftInputFromWindow(edtMaintitleText.getWindowToken(), 0);
-
-            }
-        });
-        ivMaintitleScan.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Toast.makeText(MainActivity.this, "扫描二维码", Toast.LENGTH_SHORT).show();
-
-                Intent intent = new Intent(MainActivity.this, CaptureActivity.class);
-                startActivityForResult(intent, REQUEST_CODE);
-
-
-            }
-        });
-        ivMaintitleSearch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String content = edtMaintitleText.getText().toString().trim();
-
-                Intent intent = new Intent(MainActivity.this, PlaySearchActivity.class);
-                intent.putExtra("content", content);
-                startActivity(intent);
-                llMaintitleSearch.setVisibility(View.GONE);
-
-            }
-        });
-        btnMaintitleBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                llMaintitleSearch.setVisibility(View.GONE);
-                InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-                //imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
-                imm.hideSoftInputFromWindow(edtMaintitleText.getWindowToken(), 0);
-
-            }
-        });
-        ivTitleDownload.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this,DownloadListActivity.class);
-                startActivity(intent);
-            }
-        });
+    @Override
+    public void toLoginActivity() {
 
     }
+
+    @Override
+    public void openDrawer() {
+        idDrawerLayout.openDrawer(GravityCompat.START);
+    }
+
+    @Override
+    public void showMaintitleSearch() {
+        llMaintitleSearch.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideMaintitleSearch() {
+        llMaintitleSearch.setVisibility(View.GONE);
+
+    }
+
+    @Override
+    public void hideSoftInputFromWindow() {
+        InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        //imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+        imm.hideSoftInputFromWindow(edtMaintitleText.getWindowToken(), 0);
+    }
+
+    @Override
+    public void toCaptureActivity() {
+        Intent intent = new Intent(MainActivity.this, CaptureActivity.class);
+        startActivityForResult(intent, REQUEST_CODE);
+    }
+
 
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // TODO Auto-generated method stub
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
-            String result = data.getExtras().getString("result");
-            //得到返回结果
-        }
+    public void toPlaySearcheActivity() {
+        String content = edtMaintitleText.getText().toString().trim();
+
+        Intent intent = new Intent(MainActivity.this, PlaySearchActivity.class);
+        intent.putExtra("content", content);
+        startActivity(intent);
     }
 
+    @Override
+    public void toDownloadListActivity() {
+        Intent intent = new Intent(MainActivity.this, DownloadListActivity.class);
+        startActivity(intent);
+    }
 
-    private void initAdapter() {
+    @Override
+    public void initAdapter() {
         mainViewPager = new MainViewPagerAdapter(getSupportFragmentManager(), fragments);
         viewPager.setAdapter(mainViewPager);
         //关联ViewPager
         tablayout.setupWithViewPager(viewPager);
         tablayout.setTabMode(TabLayout.MODE_SCROLLABLE);
-
-
     }
 
-    private void initFragment() {
+    @Override
+    public void initFragemnt() {
         fragments = new ArrayList<>();
         fragments.add(new DirectTvFragment());
         fragments.add(new RecommendFragment());
         fragments.add(new RunPlayFragment());
         fragments.add(new PartitionFragment());
         fragments.add(new FindFragment());
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        broadcastManager.unregisterReceiver(mReceiver);
-        ButterKnife.reset(this);
     }
 }

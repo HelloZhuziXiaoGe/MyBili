@@ -61,6 +61,15 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <!-- 蓝牙权限，已适配Android6.0 -->
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-feature
+        android:name="android.hardware.bluetooth_le"
+        android:required="true" />
+
     <supports-screens
         android:anyDensity="true"
         android:largeScreens="true"
@@ -75,7 +84,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".WelcomeActivity">
+        <activity android:name=".activity.welcomeactivity.view.WelcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -83,7 +92,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".activity.mainactivity.view.MainActivity"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme" />
         <activity android:name=".PlaySearchActivity" />
@@ -110,13 +119,13 @@
             android:screenOrientation="behind"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity android:name=".DownloadListActivity" />
-        <activity android:name=".NewsDetailActivity"/>
+        <activity android:name=".NewsDetailActivity" />
 
         <!-- Rich push 核心功能 since 2.0.6 -->
         <activity
             android:name="cn.jpush.android.ui.PopWinActivity"
             android:exported="false"
-            android:theme="@style/MyDialogStyle"></activity>
+            android:theme="@style/MyDialogStyle" />
 
         <!-- Required SDK核心功能 -->
         <activity
@@ -135,7 +144,7 @@
         <service
             android:name="cn.jpush.android.service.DownloadService"
             android:enabled="true"
-            android:exported="false"></service>
+            android:exported="false" />
 
         <!-- Required SDK 核心功能 -->
         <!-- 可配置android:process参数将PushService放在其他进程中 -->
@@ -191,7 +200,7 @@
 
         <!-- User defined.  For test only  用户自定义的广播接收器 -->
         <receiver
-            android:name="com.atguiu.mybili.myreceiver.MyReceiver"
+            android:name=".myreceiver.MyReceiver"
             android:enabled="true"
             android:exported="false">
             <intent-filter>
@@ -212,6 +221,7 @@
             android:name="JPUSH_APPKEY"
             android:value="e599eb5ca73a1a83c5c82145" /> <!-- </>值来自开发者平台取得的AppKey -->
 
+        <activity android:name=".BluetoothActivity"></activity>
     </application>
 
 </manifest>

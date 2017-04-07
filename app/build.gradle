@@ -20,7 +20,7 @@ android {
     buildToolsVersion "25.0.2"
     defaultConfig {
         applicationId "com.atguiu.mybili"
-        minSdkVersion 19
+        minSdkVersion 18
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
@@ -60,4 +60,7 @@ dependencies {
     compile 'com.bilibili:magicasakura:0.1.5@aar'
     compile files('libs/jcore-android_v1.1.1.jar')
     compile files('libs/jpush-android_v3.0.3.jar')
+
+    compile 'com.squareup.retrofit2:retrofit:2.0.0-beta4'
+    compile 'com.squareup.retrofit2:converter-gson:2.0.0-beta4'
 }

@@ -1,6 +1,7 @@
 package com.atguiu.mybili.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -8,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.atguiu.mybili.BluetoothActivity;
 import com.atguiu.mybili.R;
 
 import butterknife.ButterKnife;
@@ -19,11 +21,11 @@ import butterknife.InjectView;
 
 public class PartionAdapter extends BaseAdapter {
     private final Context context;
-    private int[] images = {R.drawable.ic_head_live, R.drawable.ic_category_t13, R.drawable.ic_category_t1, R.drawable.ic_category_t3, R.drawable.ic_category_t129
+    private int[] images = {R.drawable.image_bluetooth, R.drawable.ic_category_t13, R.drawable.ic_category_t1, R.drawable.ic_category_t3, R.drawable.ic_category_t129
             , R.drawable.ic_category_t4, R.drawable.ic_category_t36, R.drawable.ic_category_t160, R.drawable.ic_category_t119, R.drawable.ic_category_t155, R.drawable.ic_category_t165,
             R.drawable.ic_category_t5, R.drawable.ic_category_t23, R.drawable.ic_category_t11, R.drawable.ic_category_game_center};
 
-    private String[] texts = {"直播", "番剧", "动画", "音乐", "舞蹈", "游戏", "科技", "生活", "鬼畜", "时尚", "广告", "娱乐", "电影", "电视剧", "游戏中心"};
+    private String[] texts = {"蓝牙", "番剧", "动画", "音乐", "舞蹈", "游戏", "科技", "生活", "鬼畜", "时尚", "广告", "娱乐", "电影", "电视剧", "游戏中心"};
 
     public PartionAdapter(Context context) {
         this.context = context;
@@ -63,7 +65,16 @@ public class PartionAdapter extends BaseAdapter {
             @Override
             public void onClick(View view) {
 
-                Toast.makeText(context,texts[positon]+"", Toast.LENGTH_SHORT).show();
+                if("蓝牙".equals(texts[positon]+"")){
+
+                    Intent intent = new Intent(context,BluetoothActivity.class);
+                    context.startActivity(intent);
+
+                }else{
+                    Toast.makeText(context,texts[positon]+"", Toast.LENGTH_SHORT).show();
+                }
+
+
             }
         });
         return convertView;

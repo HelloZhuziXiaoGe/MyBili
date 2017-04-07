@@ -1,4 +1,4 @@
-package com.atguiu.mybili.fragment;
+package com.atguiu.mybili.fragment.view;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -16,17 +16,17 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.atguiu.mybili.MainActivity;
 import com.atguiu.mybili.OriginalRanklistActivity;
 import com.atguiu.mybili.PlaySearchActivity;
 import com.atguiu.mybili.R;
 import com.atguiu.mybili.ShoppingActivity;
 import com.atguiu.mybili.TopicCenterActivity;
+import com.atguiu.mybili.activity.mainactivity.view.MainActivity;
 import com.atguiu.mybili.base.BaseFragment;
 import com.atguiu.mybili.bean.TagBean;
-import com.google.gson.Gson;
-import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.callback.StringCallback;
+import com.atguiu.mybili.fragment.presenter.FindPresenter;
+import com.atguiu.mybili.utils.Contans;
+import com.xys.libzxing.zxing.activity.CaptureActivity;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
@@ -35,17 +35,17 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import okhttp3.Call;
 
+import static android.app.Activity.RESULT_OK;
 import static android.content.Context.INPUT_METHOD_SERVICE;
 
 /**
  * Created by 进击的程序猿 on 2017/3/21.
  */
 
-public class FindFragment extends BaseFragment {
+public class FindFragment extends BaseFragment implements IFindFragmentView {
 
-
+    private static final int REQUEST_CODE2 = 8;
     @InjectView(R.id.search_scan)
     ImageView searchScan;
     @InjectView(R.id.search_edit)
@@ -94,14 +94,25 @@ public class FindFragment extends BaseFragment {
     ImageView icShop;
     @InjectView(R.id.layout_shop)
     RelativeLayout layoutShop;
-    private List<TagBean.DataBean.ListBean> list;
+
     private boolean isShowMore = true;
     private MainActivity mainactivity;
+
+
+    private FindPresenter findPresenter;
+
+    private LinearLayout llMaintitleSearch;
+    private ImageView ivMaintitleBack;
+    private EditText edtMaintitleText;
+    private ImageView ivMaintitleSearch;
+    private Button btnMaintitleBack;
+    private ImageView ivMaintitleScan;
 
     @Override
     public View initView() {
         View view = View.inflate(context, R.layout.fragment_find, null);
         ButterKnife.inject(this, view);
+        findPresenter = new FindPresenter(this);
         return view;
     }
 
@@ -109,7 +120,9 @@ public class FindFragment extends BaseFragment {
     public void initData() {
         super.initData();
 
-        getTags();
+        // getTags();
+        findPresenter.getTagFromNet();
+
         initListener();
 
     }
@@ -120,95 +133,68 @@ public class FindFragment extends BaseFragment {
             public void onClick(View view) {
                 if (isShowMore) {
                     isShowMore = false;
-                    hideScrollView.setVisibility(View.VISIBLE);
-                    tvMore.setText("收起");
-                    tagsLayout.setVisibility(View.GONE);
-                    Drawable upDrawable = getResources().getDrawable(R.drawable.ic_arrow_up_gray_round);
-                    upDrawable.setBounds(0, 0, upDrawable.getMinimumWidth(), upDrawable.getMinimumHeight());
-                    tvMore.setCompoundDrawables(upDrawable, null, null, null);
+                    findPresenter.tvMoreHideClick();
                 } else {
                     isShowMore = true;
-                    hideScrollView.setVisibility(View.GONE);
-                    tvMore.setText("查看更多");
-                    tagsLayout.setVisibility(View.VISIBLE);
-                    Drawable downDrawable = getResources().getDrawable(R.drawable.ic_arrow_down_gray_round);
-                    downDrawable.setBounds(0, 0, downDrawable.getMinimumWidth(), downDrawable.getMinimumHeight());
-                    tvMore.setCompoundDrawables(downDrawable, null, null, null);
+                    findPresenter.tvMoreShowClick();
                 }
             }
         });
-
-        mainactivity = (MainActivity) getActivity();
-        final LinearLayout llMaintitleSearch = (LinearLayout) mainactivity.findViewById(R.id.ll_maintitle_search);
-        ImageView ivMaintitleBack = (ImageView) mainactivity.findViewById(R.id.iv_maintitle_back);
-        final EditText edtMaintitleText = (EditText) mainactivity.findViewById(R.id.edt_maintitle_text);
-        ImageView ivMaintitleSearch = (ImageView) mainactivity.findViewById(R.id.iv_maintitle_search);
-        Button btnMaintitleBack = (Button) mainactivity.findViewById(R.id.btn_maintitle_back);
-        ImageView ivMaintitleScan = (ImageView) mainactivity.findViewById(R.id.iv_maintitle_scan);
+        //得到Activity的实例
+        findPresenter.getMainActivity();
 
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                llMaintitleSearch.setVisibility(View.VISIBLE);
+                findPresenter.showllMaintitleSearch();
             }
         });
 
         ivMaintitleBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                llMaintitleSearch.setVisibility(View.GONE);
-                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(INPUT_METHOD_SERVICE);
-                //imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
-                imm.hideSoftInputFromWindow(edtMaintitleText.getWindowToken(), 0);
-
+                findPresenter.hidellMaintitleSearch();
+                findPresenter.hideSoftInputFromWindow();
             }
         });
         ivMaintitleScan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getActivity(), "扫描二维码", Toast.LENGTH_SHORT).show();
+                findPresenter.toCaptureActivity();
             }
         });
         ivMaintitleSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String content = edtMaintitleText.getText().toString().trim();
-                Intent intent = new Intent(getActivity(), PlaySearchActivity.class);
-                intent.putExtra("content", content);
-                startActivity(intent);
-                llMaintitleSearch.setVisibility(View.GONE);
-
+                findPresenter.toPlaySearchActivity(content);
             }
         });
         btnMaintitleBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                llMaintitleSearch.setVisibility(View.GONE);
-                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(INPUT_METHOD_SERVICE);
-                //imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
-                imm.hideSoftInputFromWindow(edtMaintitleText.getWindowToken(), 0);
-
+                findPresenter.hidellMaintitleSearch();
+                findPresenter.hideSoftInputFromWindow();
             }
         });
         topicCenterLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, TopicCenterActivity.class);
-                startActivity(intent);
+                findPresenter.toTopicCenterActivity();
             }
         });
         activityCenterLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, TopicCenterActivity.class);
-                startActivity(intent);
+                findPresenter.toTopicCenterActivity();
             }
         });
         layoutOriginal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, OriginalRanklistActivity.class);
-                startActivity(intent);
+
+                findPresenter.toOriginalRanklistActivity();
+
             }
         });
         layoutAllRank.setOnClickListener(new View.OnClickListener() {
@@ -220,56 +206,36 @@ public class FindFragment extends BaseFragment {
         layoutShop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, ShoppingActivity.class);
-                startActivity(intent);
+                findPresenter.toShoppingActivity();
+
             }
         });
 
     }
 
-    private void getTags() {
-        OkHttpUtils
-                .get()
-                //联网地址
-                .url("http://app.bilibili.com/x/v2/search/hot?appkey=1d8b6e7d45233436&build=501000&lim" +
-                        "it=50&mobi_app=android&platform=android&ts=1490014710000&sign=e5ddf94fa9a0d6876cb85756c37c4adc")
-                .id(100)//http,
-                .build()
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
-                        Log.e("TAG", "联网失败==" + e.getMessage());
-                    }
 
-                    @Override
-                    public void onResponse(String response, int id) {
-                        Log.e("TAG", "联网成功==");
-                        processData(response);
-
-                    }
-                });
+    @Override
+    public String getUrl() {
+        return Contans.FIND_URL;
     }
 
-    private void processData(String response) {
-        TagBean tagBean = new Gson().fromJson(response, TagBean.class);
-        list = tagBean.getData().getList();
+    @Override
+    public void TagslayoutsetAdapter(List<TagBean.DataBean.ListBean> list) {
 
         List<TagBean.DataBean.ListBean> hotTags = list.subList(0, 8);
         tagsLayout.setAdapter(new TagAdapter<TagBean.DataBean.ListBean>(hotTags) {
             @Override
             public View getView(FlowLayout parent, int position, final TagBean.DataBean.ListBean hotTags) {
 
-                final TextView mTags = (TextView) LayoutInflater.from(getActivity())
+                final TextView mTags;
+                mTags = (TextView) LayoutInflater.from(getActivity())
                         .inflate(R.layout.layout_tags_item, parent, false);
                 mTags.setText(hotTags.getKeyword());
 
                 mTags.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
-                        Intent intent = new Intent(getActivity(), PlaySearchActivity.class);
-                        intent.putExtra("content", mTags.getText());
-                        startActivity(intent);
+                        findPresenter.toPlaySearchActivity(mTags.getText().toString());
                     }
                 });
 
@@ -287,19 +253,133 @@ public class FindFragment extends BaseFragment {
                 mTags.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
-                        Intent intent = new Intent(getActivity(), PlaySearchActivity.class);
-                        intent.putExtra("content", mTags.getText());
-                        startActivity(intent);
+                        findPresenter.toPlaySearchActivity(mTags.getText().toString());
                     }
                 });
 
                 return mTags;
             }
         });
+    }
 
+    @Override
+    public void hideHideScrollView() {
+        hideScrollView.setVisibility(View.GONE);
+    }
 
+    @Override
+    public void showhideScrollView() {
+        hideScrollView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void setStopText() {
+        tvMore.setText("收起");
+    }
+
+    @Override
+    public void setMoreText() {
+        tvMore.setText("查看更多");
+    }
+
+    @Override
+    public void hideTagslayout() {
+        tagsLayout.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showTagslayout() {
+        tagsLayout.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void setUpDrawable() {
+        Drawable upDrawable = getResources().getDrawable(R.drawable.ic_arrow_up_gray_round);
+        upDrawable.setBounds(0, 0, upDrawable.getMinimumWidth(), upDrawable.getMinimumHeight());
+        tvMore.setCompoundDrawables(upDrawable, null, null, null);
     }
 
 
+    @Override
+    public void setDownDrawable() {
+        Drawable downDrawable = getResources().getDrawable(R.drawable.ic_arrow_down_gray_round);
+        downDrawable.setBounds(0, 0, downDrawable.getMinimumWidth(), downDrawable.getMinimumHeight());
+        tvMore.setCompoundDrawables(downDrawable, null, null, null);
+    }
+
+    @Override
+    public void getMainActivity() {
+        mainactivity = (MainActivity) getActivity();
+        llMaintitleSearch = (LinearLayout) mainactivity.findViewById(R.id.ll_maintitle_search);
+        ivMaintitleBack = (ImageView) mainactivity.findViewById(R.id.iv_maintitle_back);
+        edtMaintitleText = (EditText) mainactivity.findViewById(R.id.edt_maintitle_text);
+        ivMaintitleSearch = (ImageView) mainactivity.findViewById(R.id.iv_maintitle_search);
+        btnMaintitleBack = (Button) mainactivity.findViewById(R.id.btn_maintitle_back);
+        ivMaintitleScan = (ImageView) mainactivity.findViewById(R.id.iv_maintitle_scan);
+    }
+
+    @Override
+    public void showMaintitleSearch() {
+        llMaintitleSearch.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideMaintitleSearch() {
+        llMaintitleSearch.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void hideSoftInputFromWindow() {
+        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(INPUT_METHOD_SERVICE);
+        //imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+        imm.hideSoftInputFromWindow(edtMaintitleText.getWindowToken(), 0);
+    }
+
+    @Override
+    public void toCaptureActivity() {
+        Intent intent = new Intent(getActivity(), CaptureActivity.class);
+        startActivityForResult(intent, REQUEST_CODE2);
+
+    }
+
+    @Override
+    public void toPlaySearcheActivity(String content) {
+
+        Intent intent = new Intent(getActivity(), PlaySearchActivity.class);
+        intent.putExtra("content", content);
+        startActivity(intent);
+    }
+
+    @Override
+    public void toTopicCenterActivity() {
+        Intent intent = new Intent(context, TopicCenterActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void toOriginalRanklistActivity() {
+        Intent intent = new Intent(context, OriginalRanklistActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void toShoppingActivity() {
+        Intent intent = new Intent(context, ShoppingActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void showErrorMessage(Exception ex) {
+        Log.e("TAG", "Exception" + ex.getMessage());
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // TODO Auto-generated method stub
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            String result = data.getExtras().getString("result");
+            //得到返回结果
+        }
+    }
 }
